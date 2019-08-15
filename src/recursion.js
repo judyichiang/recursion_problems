@@ -7,32 +7,116 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
+  //base case
+  if (n < 0 || n === undefined) {
+    return null;
+  }
+  if (n <= 1) {
+    return 1;
+  }
+  // recursive case
+  return n * factorial(n - 1);
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
+// https://davidtang.io/2019/03/31/learning-recursion-in-javascript-part-2.html
+
 var sum = function(array) {
+  if(!array.length){
+    return 0;
+  }
+  return array[0] + sum(array.slice(1));
 };
+
+//[]              / return 0
+//[6]             / return 6 + 0
+//[5,6]           / return 5 + 6
+//[4,5,6]         / return 4 + 11
+//[3,4,5,6]       / return 3 + 15
+//[2,3,4,5,6]     / return 2 + 18
+//[1,2,3,4,5,6]   / return 1 + 20
+
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
+
+// arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])
+// array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
+
+
 var arraySum = function(array) {
-};
+  var sum = 0;
+  for(var i = 0; i < array.length; i++) {
+    var val = array[i];
+    if(Array.isArray(val)){ //if instance of an Array?
+    sum += arraySum(val)
+    } else {
+      //else - add the number to sum
+       sum += val;
+    }
+  }
+  return sum;
+}
+
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  n = Math.abs(n);
+  if(n === 0) return true;
+  if(n === 1) return false;
+  return isEven(n-2);
 };
+
+//11    return 9
+//9     return 7
+//5     return 3
+//3     return 1  ===false
+
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
+
 var sumBelow = function(n) {
+  if (n === 0){
+    return 0;
+  }
+  if ( n > 0){
+    return (n-1) + sumBelow(n-1);
+  }
+  else {
+    return (n+1) + sumBelow(n+1);
+  }
+
 };
+
+// 0       Return 0
+// 1       Return 0
+// 2       Return 1
+// 3       Return 3
+// 4       Return 6
+// 5       Return 10
+// 6       Return 15
+// 7       Return 21
+
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+  //base case
+
+
 };
+
+// var range = function(x, y) {
+//   var arr = [];
+//   for ( var i = x+1; i <y ; i++){
+//     var key = i;
+//     arr.push(key);
+//   }
+//   return arr;
+// };
 
 // 7. Compute the exponent of a number.
 // The exponent of a number says how many times the base number is used as a factor.
