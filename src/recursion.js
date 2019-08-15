@@ -91,23 +91,59 @@ var sumBelow = function(n) {
 
 };
 
-// 0       Return 0
-// 1       Return 0
-// 2       Return 1
-// 3       Return 3
-// 4       Return 6
-// 5       Return 10
-// 6       Return 15
-// 7       Return 21
+// 7  6 + add(6)
+// 6  5 + (6)
+// 5  4 + (5+6)
+// 4  3 + (4+5+6)
+// 3  2 + (3+4+5+6)
+// 2  1 + (2+3+4+5+6)
+// 1  0 + (1+2+3+4+5+6)  //return 21
+
+//below is only for sum = n -1
+  // 7-1 = (6)
+    // 6 - 1 = (5)
+      // 5 - 1 = (4)
+        // 4 - 1 = (3)
+          // 3 - 1 = (2)
+            // 2 - 1 = (1)
+              // 1 - 1 = (0). if n === 0, return 0. now recursion
+
+                // now this is when we use   sumBelow(n-1)
+                // sum = n -1 + sumBelow(n-1)
+
+              // 1 + (0-1) = 0
+            //2 + (0-1) = 1
+          //3 + (3-1) = 3
+        //4 + (3-1) = 6
+      //5 + (6-1) = 10
+    //6 + (10-1) = 15
+  //7 + (15-1) =  21
+
 
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
-var range = function(x, y) {
+var range = function(x, y) {   // line297
   //base case
+  if(Math.abs(y-x) ===1 || x-y === 0){
+    return []
+  }
+  if (y-x === 2){
+    return [x + 1];
 
+  } else if (x < y) {    /// positive test
+    var arr = range(x, y-1);
+    arr.push(y-1);
+    return arr;
+  }
 
+    else if (x > y){    /// negative test
+      var arr = range(x, y+1);
+      arr.push(y+1);
+      return arr;
+    }
 };
+
 
 // var range = function(x, y) {
 //   var arr = [];
@@ -123,7 +159,21 @@ var range = function(x, y) {
 // 8^2 = 8 x 8 = 64. Here, 8 is the base and 2 is the exponent.
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
+// line 355
+
 var exponent = function(base, exp) {
+  if ( exp === 0) {   //base case
+    return 1;
+  }
+
+  if( exp > 0){
+    return base * exponent(base, exp -1)
+  }
+
+  else {
+    return 1/(base*exponent(base, -1 * exp-1));  //neg exponent
+  };
+
 };
 
 // 8. Determine if a number is a power of two.
@@ -131,14 +181,61 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  if (n === 1) {    // base cases
+    return true;
+  }
+  if (n === 0 || n % 2 === 1) {
+    return false;
+  }
+  return powerOfTwo(n / 2);  // recursive case
 };
 
 // 9. Write a function that reverses a string.
+// https://www.freecodecamp.org/news/how-to-reverse-a-string-in-javascript-in-3-different-ways-75e4763c68cb/
+
+//reverse("hello");
+
+
 var reverse = function(string) {
+  if(string === "") {   // base code
+    return "";
+  }
+  else {
+    return reverse(string.substr(1)) + string.charAt(0);
+  }
 };
+
+/*
+         First Part of the recursion method
+You need to remember that you won’t have just one call, you’ll have several nested calls
+Each call: str === "?"                              reverseString(str.subst(1))     + str.charAt(0)
+1st call – reverseString("Hello")   will return   reverseString("ello")           + "h"
+2nd call – reverseString("ello")    will return   reverseString("llo")            + "e"
+3rd call – reverseString("llo")     will return   reverseString("lo")             + "l"
+4th call – reverseString("lo")      will return   reverseString("o")              + "l"
+5th call – reverseString("o")       will return   reverseString("")               + "o"
+         Second part of the recursion method
+The method hits the if condition and the most highly nested call returns immediately
+5th call will return reverseString("") + "o" = "o"
+4th call will return reverseString("o") + "l" = "o" + "l"
+3rd call will return reverseString("lo") + "l" = "o" + "l" + "l"
+2nd call will return reverserString("llo") + "e" = "o" + "l" + "l" + "e"
+1st call will return reverserString("ello") + "h" = "o" + "l" + "l" + "e" + "h"
+*/
+
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  // base cases
+  if (string === '' || string.length === 1) {
+    return true;
+  }
+  if (string[0].toLowerCase() !== string.slice(-1).toLowerCase()) {
+    return false;
+  }
+
+  // recursive case
+  return palindrome(string.substr(1, string.length - 2));
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
