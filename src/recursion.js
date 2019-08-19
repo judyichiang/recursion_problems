@@ -197,6 +197,7 @@ var powerOfTwo = function(n) {
 
 
 var reverse = function(string) {
+  // console.log("word is "+ string);
   if(string === "") {   // base code
     return "";
   }
@@ -226,6 +227,7 @@ The method hits the if condition and the most highly nested call returns immedia
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  //console.log("word is "+ string);
   // base cases
   if (string === '' || string.length === 1) {
     return true;
@@ -249,11 +251,27 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+  if( x===0 || y === 0){
+    return 0
+  }
+  else if (y<0) {
+    return -x + multiply(x, y+1);
+  }
+  else{
+    return x + multiply(x, y-1)
+  }
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+  //x or y equal 0 you get null/0? as base case
+  if(x === 0 || y === 0){
+    return 0;
+  }
+    //then the recursion without the / booo
+    //negative
+    //positive
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
@@ -269,15 +287,36 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+  //base case, if not the same string length equals false
+  if(str1.length!== str2.length){
+    return false;
+  }
+  return compareStr(str1.substr(1), str2.substr(1));
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
+  //create a array placeholder
+  var arr = []
+  //check if string is a string
+  if(str.length === 0){
+    return [];
+  }
+  //split string,, push into array
+
+
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+  var arr = [];
+  if(array.length === 0){
+    return [];
+  }
+  arr.push(array.pop());
+  return arr.concat(reverseArr(array.slice(0)));
+
 };
 
 // 18. Create a new array with a given value and length.
